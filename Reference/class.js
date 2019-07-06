@@ -7,27 +7,30 @@ var Ninja = (function(){
     var _ = function(instance){
         return priv.get(instance);
     }
-
-    //Constructor method
-    function NinjaConstructor(firstName, lastName){
-        var privateMembers = {FirstName: firstName, LastName: lastName, KunaisRemaining: 3 };
-        priv.set(this,privateMembers);
+    //Class
+    class NinjaClass{
+        constructor(firstName, lastName){
+            var privateMembers = {FirstName: firstName, LastName: lastName, KunaisRemaining: 3 };
+            priv.set(this,privateMembers);
+        }
+        //define getter inside class
+        get FirstName(){
+            return _(this).FirstName;
+        }
+        // define public methods
+        ThrowKunai = function(){
+            if (_(this).KunaisRemaining>0){
+                console.log("Kunai thrown by " + _(this).FirstName + " " + _(this).LastName);
+                _(this).KunaisRemaining--;
+            }
+            else{
+                console.log("No kunais left for " + _(this).FirstName + " " + _(this).LastName)
+            }
+        }
     }
 
-        // Define getter properies on the prototype property of constructor
         Object.defineProperty(
-            NinjaConstructor.prototype,
-            "FirstName",
-            {
-                get: function(){
-                    return _(this).FirstName;
-                },
-                configurable: false,
-                enumerable: true
-            }
-        )
-        Object.defineProperty(
-            NinjaConstructor.prototype,
+            NinjaClass.prototype,
             "LastName",
             {
                 get: function(){
@@ -38,16 +41,7 @@ var Ninja = (function(){
             }
         )
 
-    // Use the prototype property to define public methods
-    NinjaConstructor.prototype.ThrowKunai = function(){
-        if (_(this).KunaisRemaining>0){
-            console.log("Kunai thrown by " + _(this).FirstName + " " + _(this).LastName);
-            _(this).KunaisRemaining--;
-        }
-        else{
-            console.log("No kunais left for " + _(this).FirstName + " " + _(this).LastName)
-        }
-    }
-    return NinjaConstructor;
+    
+    return NinjaClass;
 }())
 
